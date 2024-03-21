@@ -1,0 +1,57 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "tokenURI",
+				"type": "string"
+			}
+		],
+		"name": "deployNFT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "deployedNFTs",
+		"outputs": [
+			{
+				"internalType": "contract MyNFTEvent",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getDeployedNFTs",
+		"outputs": [
+			{
+				"internalType": "contract MyNFTEvent[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
