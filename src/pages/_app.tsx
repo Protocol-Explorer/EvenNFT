@@ -1,6 +1,63 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import '@rainbow-me/rainbowkit/styles.css';
+import { useRouter } from 'next/router';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+import {
+  RainbowKitProvider,
+  getDefaultWallets,
+  Locale,
+  getDefaultConfig,
+} from '@rainbow-me/rainbowkit';
+
+import {
+  argentWallet,
+  trustWallet,
+  ledgerWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+
+import { WagmiProvider } from 'wagmi';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import {
+  scrollSepolia,
+  sepolia
+} from 'wagmi/chains';
+
+const { wallets } = getDefaultWallets();
+
+const config = getDefaultConfig({
+  appName: 'RainbowKit demo',
+  projectId: 'YOUR_PROJECT_ID',
+  wallets: [
+    ...wallets,
+    {
+      groupName: 'Other',
+      wallets: [argentWallet, trustWallet, ledgerWallet],
+    },
+  ],
+  chains: [
+    scrollSepolia,
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [sepolia] : []),
+  ],
+  ssr: true,
+});
+
+const queryClient = new QueryClient();
+
+
+function App({ Component, pageProps }: AppProps) {
+  const { locale } = useRouter() as { locale: Locale };
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider locale={locale}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
 }
+
+export default App;
